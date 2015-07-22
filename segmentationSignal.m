@@ -36,18 +36,20 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     end
     
     if maxRD > maxRG
-        listRot=defineRot(D,gyroCycle);
+        listRotD=defineRot(D,gyroCycle);
+        listRotG=ajustement(G,listRotD);
     else
-        listRot=defineRot(G,gyroCycle);
+        listRotG=defineRot(G,gyroCycle);
+        listRotD=ajustement(G,listRotG);
     end
     
     figure 
     subplot(2,1,1) 
     hold on
-    plot(A,D)
+    plot(A,D,'r')
     
-    for i=1:length(listRot)
-        plot(A(listRot(i,1):listRot(i,2)),D(listRot(i,1):listRot(i,2)),'g')
+    for i=1:length(listRotD)
+        plot(A(listRotD(i,1):listRotD(i,2)),D(listRotD(i,1):listRotD(i,2)),'g')
     end
     hold off
     
@@ -55,24 +57,24 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     hold on
     plot(A,G,'b')
     
-    for i=1:length(listRot)
-        plot(A(listRot(i,1):listRot(i,2)),G(listRot(i,1):listRot(i,2)),'g')
+    for i=1:length(listRotG)
+        plot(A(listRotG(i,1):listRotG(i,2)),G(listRotG(i,1):listRotG(i,2)),'g')
     end
     hold off
     
-    cycleD=CyclePropulsion(A,lisseD,listRot);
-    cycleG=CyclePropulsion(A,lisseG,listRot);
+    cycleD=CyclePropulsion(A,lisseD,listRotD);
+    cycleG=CyclePropulsion(A,lisseG,listRotG);
     
     length(cycleD)
     length(cycleG)
-%     decoupeCycle(cycleD, listRot , chemin, RD, indTemps);
+%     decoupeCycle(cycleD, listRotD , chemin, RD, indTemps);
 %     fichVide(chemin, [RD 'decoupe']);
-%     CycleComplet(cycleD, listRot , chemin, RD, indTemps);
+%     CycleComplet(cycleD, listRotD , chemin, RD, indTemps);
 %     fichVide(chemin, [RD 'Cycle Complet']);
 %     
-%     decoupeCycle(cycleG, listRot , chemin, RG, indTemps);
+%     decoupeCycle(cycleG, listRotG , chemin, RG, indTemps);
 %     fichVide(chemin, [RG 'decoupe']);
-%     CycleComplet(cycleG, listRot , chemin, RG, indTemps);
+%     CycleComplet(cycleG, listRotG , chemin, RG, indTemps);
 %     fichVide(chemin, [RG 'Cycle Complet']);
 %     
 
