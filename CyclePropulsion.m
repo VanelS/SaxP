@@ -6,19 +6,23 @@ function [cycle] = CyclePropulsion(time, signal, rotation)
     %recherche des différents point maximal de chaque cycle de propultion
     j=1;
     while i<=length(signal)-1
-        if signal(i) < signal(i-1) && signal(i) < signal(i+1) && signal(i)<seuil && ~contient(rotation(j,1):rotation(j,2),i)
-           A=[A;i];
-           %ici dès que l'on trouve un sommet de cycle, on parcours les
-           %points suivant jusqu'à sortir du cycle pour reprendre la
-           %recherche d'autre cycle
-           while signal(i) < seuil && i<=length(signal)-1
-               i=i+1;
-           end
-          
-        end
-        i=i+1;
-        if j<length(rotation) && i > rotation(j,2)
-            j=j+1;
+        if i > rotation(j,1)&& i<rotation(j,2)
+            i=i+1;
+        else
+            if signal(i) < signal(i-1) && signal(i) < signal(i+1) && signal(i)<seuil
+               A=[A;i];
+               %ici dès que l'on trouve un sommet de cycle, on parcours les
+               %points suivant jusqu'à sortir du cycle pour reprendre la
+               %recherche d'autre cycle
+               while signal(i) < seuil && i<=length(signal)-1
+                   i=i+1;
+               end
+
+            end
+            i=i+1;
+            if j<length(rotation) && i > rotation(j,2)
+                j=j+1;
+            end
         end
     end
     hold on

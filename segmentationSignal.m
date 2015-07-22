@@ -1,6 +1,8 @@
 function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps ) 
 
-    
+    virg2point ( chemin, RD );
+    virg2point ( chemin, RG);
+    virg2point ( chemin, gyr);
     %extraction des données des fichier 
     [A D]=lectFich(chemin,RD,attribut,indTemps);
     [C G]=lectFich(chemin,RG,attribut,indTemps);
@@ -40,7 +42,7 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
         listRotG=ajustement(G,listRotD);
     else
         listRotG=defineRot(G,gyroCycle);
-        listRotD=ajustement(G,listRotG);
+        listRotD=ajustement(D,listRotG);
     end
     
     figure 
@@ -65,17 +67,15 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     cycleD=CyclePropulsion(A,lisseD,listRotD);
     cycleG=CyclePropulsion(A,lisseG,listRotG);
     
-    length(cycleD)
-    length(cycleG)
-%     decoupeCycle(cycleD, listRotD , chemin, RD, indTemps);
-%     fichVide(chemin, [RD 'decoupe']);
-%     CycleComplet(cycleD, listRotD , chemin, RD, indTemps);
-%     fichVide(chemin, [RD 'Cycle Complet']);
-%     
-%     decoupeCycle(cycleG, listRotG , chemin, RG, indTemps);
-%     fichVide(chemin, [RG 'decoupe']);
-%     CycleComplet(cycleG, listRotG , chemin, RG, indTemps);
-%     fichVide(chemin, [RG 'Cycle Complet']);
-%     
+    decoupeCycle(cycleD, listRotD , chemin, RD, indTemps,A);
+    fichVide(chemin, [RD 'decoupe']);
+    cycleComplet(cycleD, listRotD , chemin, RD, indTemps,A);
+    fichVide(chemin, [RD 'Cycle Complet']);
+    
+    decoupeCycle(cycleG, listRotG , chemin, RG, indTemps,A);
+    fichVide(chemin, [RG 'decoupe']);
+    cycleComplet(cycleG, listRotG , chemin, RG, indTemps,A);
+    fichVide(chemin, [RG 'Cycle Complet']);
+    
 
 end

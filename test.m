@@ -12,7 +12,7 @@ function [  ] = test( )
      %s = SurfaceCyclePropulsion(fullfile(aux,'P6.txt'))
      %tracerUnePousse(fullfile(aux,'P1_2.txt'), 8);
      
-% tracerPlusieursPoussee('H:\Downloads\SAX-P_donnees_23-04-2015\DonneesATraiter\cycle complet\S13_RD_test.csvCycle Complet','*.txt',7,1);
+tracerPlusieursPoussee('C:\Users\jijanera\Downloads\S07\S07\S07_Complet\S07_T_RD.csvCycle Complet','*.txt',7,1);
 % tracerPlusieursPoussee('C:\Users\siyou\Desktop\SAX_etoile_04-03-2015\CyclesDePropulsion\DonneesATraiter\S07_RD_e2H0.csv','*.txt',8,2);
 % tracerPlusieursPoussee('C:\Users\siyou\Desktop\SAX_etoile_04-03-2015\CyclesDePropulsion\DonneesATraiter\S09_RD_e2_H0.csv','*.txt',8,2);
 % tracerPlusieursPoussee('C:\Users\siyou\Desktop\SAX_etoile_04-03-2015\CyclesDePropulsion\DonneesATraiter\S09_RG_e2_H0.csv','*.txt',8,2);
@@ -23,7 +23,7 @@ function [  ] = test( )
 % tracerUnePousse('C:\Users\siyou\Desktop\version_code_sax-p\SAX-P_donnees_23-04-2015\DonneesATraiter\S07_RD_e1H4.csv',7,1);
 % tracerUnePousse('C:\Users\siyou\Desktop\SAX_etoile_04-03-2015\DonneesATraiter\S09_RG_e1H4.csv',7,1);
 % 
-tracerUnePousse('C:\Users\jijanera\Downloads\S07\S07\S07_Complet\S07_MTI.csv',7,1);
+% tracerUnePousse('C:\Users\jijanera\Downloads\S07\S07\S07_Complet\S07_MTI.csv',7,1);
 % deplacementRectiligne2('C:\Users\siyou\Desktop\version_code_sax-p\SAX-P_donnees_23-04-2015\DonneesATraiter\S07_RG_e2H0.csv',7)
 % deplacementRectiligne2( 'C:\Users\siyou\Desktop\version_code_sax-p\SAX-P_donnees_23-04-2015\DonneesATraiter\S10_RD_e2H-4.csv',1, 7, 5,-5 )
 % tracerUnePousse('C:\Users\siyou\Desktop\version_code_sax-p\SAX-P_donnees_23-04-2015\DonneesATraiter\S10_RG_e2H-4.csv',7,1);
