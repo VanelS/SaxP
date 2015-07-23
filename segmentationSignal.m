@@ -1,17 +1,49 @@
 function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps ) 
-
+    %cette fonction realise les differentes etape du decoupage des signaux
+    %donné en parametre. Dans un premier temps, il converti les virgules
+    %des rzels du fichier en un point. Ensuite, nous stockons les données
+    %des differents fichier. Puis nous verifions si la representation
+    %graphique des donnees du gyroscope possede des sommets positif
+    %depassant le seuil de 1. Si c'est le cas nos transformons ces donnees
+    %en données negatif. Ensuite nous lissons tous nous signaux. Apres nous
+    %indentifions les differents periode de rotation sur le signal du 
+    %gyroscope. Sur ces intervalles nous identifions quel signale de la
+    %roue gauche ou de la roue droite possede des piques positif. A partir
+    %de cela, nous ajustons les differentes periodes rotations sur les deux
+    %signaux. Puis nous effectuons une phase d'identification des
+    %differents cycles de propulsion de chaque signaux. Enfin nous 
+    %decoupons les signaux originaux en different fichier correspondant au
+    %differents cycle (de propulsion ou complet)
+    
     virg2point ( chemin, RD );
     virg2point ( chemin, RG);
     virg2point ( chemin, gyr);
-    %extraction des données des fichier 
-    [A D]=lectFich(chemin,RD,attribut,indTemps);
-    [C G]=lectFich(chemin,RG,attribut,indTemps);
-    [E F]=lectFich(chemin,gyr,attribut,indTemps);
     
-    %on supprime les variables C et E car elle contient comme pour A les
-    %temps qui sont identiques pour ces trois variables
-    clearvars C;
-    clearvars E;
+%     tstart = tic;
+%     %extraction des données des fichier 
+%     [A D]=lectFich(chemin,RD,attribut,indTemps);
+%     [C G]=lectFich(chemin,RG,attribut,indTemps);
+%     [E F]=lectFich(chemin,gyr,attribut,indTemps);
+%     
+%     %on supprime les variables C et E car elle contient comme pour A les
+%     %temps qui sont identiques pour ces trois variables
+%     clearvars C;
+%     clearvars E;
+%     
+%     telapsed = toc(tstart)
+    
+    tstart = tic;
+    
+    un=importdata([chemin '\' RD],';');
+    deux=importdata([chemin '\' RG],';');
+    trois=importdata([chemin '\' gyr],';');
+    
+    X=un.data(:,indTemps);
+    D=un.data(:,attribut);
+    G=deux.data(:,attribut);
+    F=trois.data(:,attribut);
+    
+    telapsed = toc(tstart)
     
     if max(F) > 1
         F=-1*F;
@@ -27,7 +59,7 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     lisseF = filtfilt(ones(30,1),30,F(1:length(A)));
     
     %on identifie les periodes de rotations
-    gyroCycle=findCycles(A,lisseF);
+    gyroCycle=findCycles2(A,lisseF);
     
     %on répercute ces periodes de rotation sur nos signales RD et RG
     maxRD=-100;
@@ -38,13 +70,14 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     end
     
     if maxRD > maxRG
-        listRotD=defineRot(D,gyroCycle);
+        listRotD=ajustement(D,gyroCycle);
         listRotG=ajustement(G,listRotD);
     else
-        listRotG=defineRot(G,gyroCycle);
+        listRotG=ajustement(G,gyroCycle);
         listRotD=ajustement(D,listRotG);
     end
     
+    %affichage
     figure 
     subplot(2,1,1) 
     hold on
@@ -64,9 +97,12 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     end
     hold off
     
+    %identification des differents cycles de propulsion
     cycleD=CyclePropulsion(A,lisseD,listRotD);
     cycleG=CyclePropulsion(A,lisseG,listRotG);
     
+    %decoupedans plusieur fichier des cycles de propulsion et cycles
+    %complet 
     decoupeCycle(cycleD, listRotD , chemin, RD, indTemps,A);
     fichVide(chemin, [RD 'decoupe']);
     cycleComplet(cycleD, listRotD , chemin, RD, indTemps,A);

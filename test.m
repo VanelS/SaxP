@@ -12,7 +12,7 @@ function [  ] = test( )
      %s = SurfaceCyclePropulsion(fullfile(aux,'P6.txt'))
      %tracerUnePousse(fullfile(aux,'P1_2.txt'), 8);
      
-tracerPlusieursPoussee('C:\Users\jijanera\Downloads\S07\S07\S07_Complet\S07_T_RD.csvCycle Complet','*.txt',7,1);
+tracerPlusieursPoussee('C:\Users\jijanera\Downloads\donnees_s07-s08-s09\donnees_s07-s08-s09\s08\e3\e3_Complet\e3_T_RD.csvCycle Complet','*.txt',7,1);
 % tracerPlusieursPoussee('C:\Users\siyou\Desktop\SAX_etoile_04-03-2015\CyclesDePropulsion\DonneesATraiter\S07_RD_e2H0.csv','*.txt',8,2);
 % tracerPlusieursPoussee('C:\Users\siyou\Desktop\SAX_etoile_04-03-2015\CyclesDePropulsion\DonneesATraiter\S09_RD_e2_H0.csv','*.txt',8,2);
 % tracerPlusieursPoussee('C:\Users\siyou\Desktop\SAX_etoile_04-03-2015\CyclesDePropulsion\DonneesATraiter\S09_RG_e2_H0.csv','*.txt',8,2);

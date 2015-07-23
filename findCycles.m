@@ -3,7 +3,7 @@ function [gyroCycles]=findCycles(X,Y)
 
     A=0;
     i=2;
-    seuil=-1;
+    seuil=-0.8;
 
     %recherche des différents point maximal de chaque cycle de propultion
     while i<=length(Y)-1
