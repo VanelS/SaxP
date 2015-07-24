@@ -1,6 +1,7 @@
 function [  ] = test( )
-% %UNTITLED2 Summary of this function goes here
-% %   Detailed explanation goes here
+% %Dans une premiere partie, cette fonction ne fais que de tracer une ou plusieurs graphique d'une ou
+% %plusieurs fichier.
+
 % nomDossier = 'Resultats';
 % nomVolontaire = 'S08';
 % nomFich = 'S08_T_RD.csv';%'test.csv';

@@ -1,6 +1,9 @@
 function [rot]=defineRot(G,gyroCycle)
-    %on retourne dans cette fonction que les indices des points
-    %sélectionner (les différents intervalle de rotation)
+    %define rot va prendre les points maximale du signal dans les intervalles 
+    %rotation contenue dans gyroCycle. Puis a partir de ces points on
+    %parcoure le signal jusqu'a depasser l'axe Y=0 de pars et d'autre des
+    %points. Et on les retournent par la variable rot qui contient juste
+    %les indices de fin et début de cycles.
     
     indice=[];
     maxi=-100;
@@ -39,7 +42,6 @@ function [rot]=defineRot(G,gyroCycle)
         end 
         
         %sauvegarde des points de fin et début de cycle
-
         rot(j,1)= xarr;
         rot(j,2)= xavc;
     end

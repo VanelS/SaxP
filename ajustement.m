@@ -1,4 +1,10 @@
 function [rot] = ajustement(Y,rotation)
+    %cette fonction est comme sont noms l'indique une fonction d'ajustement
+    %C'est-a-dire que lorsque nous identifions les cycles de rotation, les
+    %debuts et fins de ces intervalles de temps peuvent au sommet d'un
+    %pique positif ou negatif. De ce fait nous les remettons au niveau zero
+    %sur l'axe des ordonnees.
+    
     rot=rotation;
     for j=1:length(rotation)
         arr=1;

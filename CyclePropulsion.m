@@ -1,9 +1,13 @@
 function [cycle] = CyclePropulsion(time, signal, rotation)
+    %Dans cette fonction, on identifie les differents cycles de propulsion
+    %du signale lisser envoyer. Pour chaque extremite de cycle
+    %nous identifions le debut et fin de cycle et l'inserons dans notre
+    %variable cycle qui est retourne a la fin du programme
     A=0;
     i=2;
     seuil=-abs(mean(signal))-1;
     
-    %recherche des différents point maximal de chaque cycle de propultion
+    %recherche des différents point maximal (extremite) de chaque cycle de propultion
     j=1;
     while i<=length(signal)-1
         if i > rotation(j,1)&& i<rotation(j,2)

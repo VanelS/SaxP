@@ -1,4 +1,13 @@
 function [] =coupeCycle(X, Y, chemin, fichier, indTemps,seuil)
+    
+    %coupeCycle est une fonction qui va de paire avec la fonction filtreFTT
+    %qui sont une version anterieur a la methode de decoupage de cycle.
+    %Dans cette fonction, nous faisons une premiere etape d'identification
+    %des differents sommets des cycles de propulsion. Puis, dans une
+    %deuxieme etape, nous definissons les intervalles de ces cycles et
+    %celles de rotation. Enfin, nous envoyons ces resultats au differentes
+    %fonctions qui vont decoupe ces differents cycles de propulsion et
+    %cycles complets.
 
     A=0;
     i=2;
@@ -22,6 +31,7 @@ function [] =coupeCycle(X, Y, chemin, fichier, indTemps,seuil)
     
 %     plot(X,Y)
    
+    %debut d'identification des intervalles des cycles
     cycle=zeros(length(A)-2,2);
     rot=[0,0];
     for j=2:length(A)
@@ -68,6 +78,7 @@ function [] =coupeCycle(X, Y, chemin, fichier, indTemps,seuil)
     hold off
 	rot=rot(2:length(rot),1:2);
     
+    %decoupage des differents cycles
     decoupeCycle(cycle, rot , chemin, fichier, indTemps);
     fichVide(chemin, [fichier 'decoupe']);
     
