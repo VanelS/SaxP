@@ -1,5 +1,6 @@
 function [A B] = lectFich(chemin ,fichier1, attribut, indTemps)
-
+    %cette fonction permet de recuperer les donners du fichier passer en
+    %parametre.
     donnee = fopen([chemin '\' fichier1],'r');
     
     %extraction des données

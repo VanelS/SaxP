@@ -11,22 +11,18 @@ function [rot] = ajustement(Y,rotation)
         avc=1;
         xarr=-1;
         xavc=-1;
-        
-        %recherche du début de cycle 
-        while (rotation(j,1)-arr)>0 && xarr==-1
-            if Y(rotation(j,1)-arr)<=0
+      
+        while (rotation(j,1)-arr)>0 && (xarr==-1 ||xavc==-1)
+            if Y(rotation(j,1)-arr)<=0 && xarr==-1
                 xarr=rotation(j,1)-arr;
             end
-            arr=arr+1;
-        end
-        rot(j,1)=xarr;
-        
-        while (rotation(j,2)+avc)<=length(Y) && xavc==-1
-            if Y(rotation(j,2)-avc)>=0
+            if Y(rotation(j,2)-avc)>=0 && xavc==-1
                 xavc=rotation(j,2)-avc;
             end
             avc=avc+1;
+            arr=arr+1;
         end
+        rot(j,1)=xarr;
         rot(j,2)=xavc;
     end
 end

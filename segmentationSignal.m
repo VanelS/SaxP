@@ -59,24 +59,11 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     lisseF = filtfilt(ones(30,1),30,F(1:length(X)));
     
     %on identifie les periodes de rotations
-    gyroCycle=findCycles2(X,lisseF);
+    gyroCycle=findCycles3(X,lisseF);
     
-    %on répercute ces periodes de rotation sur nos signales RD et RG
-    maxRD=-100;
-    maxRG=-100;
-    for i=1:length(gyroCycle)
-        maxRD= max(D(gyroCycle(i,1):gyroCycle(i,2)));
-        maxRG= max(G(gyroCycle(i,1):gyroCycle(i,2)));
-    end
-    
-    if maxRD > maxRG
-        listRotD=ajustement(D,gyroCycle);
-        listRotG=ajustement(G,listRotD);
-    else
-        listRotG=ajustement(G,gyroCycle);
-        listRotD=ajustement(D,listRotG);
-    end
-    
+    listRotD=ajustement(D,gyroCycle);
+    listRotG=ajustement(G,gyroCycle);
+      
     %affichage
     figure 
     subplot(2,1,1) 
@@ -90,13 +77,13 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     
     subplot(2,1,2) 
     hold on
-    plot(X,G,'b')
+    plot(X,G,'r')
     
-    for i=1:length(listRotG)
+    for i=1:length(listRotD)
         plot(X(listRotG(i,1):listRotG(i,2)),G(listRotG(i,1):listRotG(i,2)),'g')
     end
     hold off
-    
+      
     %identification des differents cycles de propulsion
     cycleD=CyclePropulsion(X,lisseD,listRotD);
     cycleG=CyclePropulsion(X,lisseG,listRotG);

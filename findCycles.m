@@ -1,5 +1,8 @@
 function [gyroCycles]=findCycles(X,Y)
-
+    %Cette fonction est principalement utilise pour trouver les cycles de
+    %rotation avec le signale du gyroscope. Pour chaque extremite de cycle
+    %nous identifions le debut et fin de cycle et l'inserons dans notre
+    %variable gyroCycle qui est retourne a la fin du programme.
 
     A=0;
     i=2;

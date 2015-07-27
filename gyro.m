@@ -1,4 +1,7 @@
 function[cycle]= gyro()
+    %giro est fonction qui va prendre les donnees du fichier du gyroscope
+    %du sujet 7 et va et va extraire les cycles de rotation et les
+    %retourner en sortie de fonction.
     donnee=fopen('C:\Users\jijanera\Downloads\S07\S07\S07_Complet\S07_MTI.csv','r');
     if donnee == -1
             error(['impossible douvrir le fichier ' 'E1_MTI.csv']);
