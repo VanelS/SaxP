@@ -24,7 +24,7 @@ function [cycle] = CyclePropulsion(time, signal, rotation)
 
             end
             i=i+1;
-            if j<length(rotation) && i > rotation(j,2)
+            if j<length(rotation) && i >= rotation(j,2)
                 j=j+1;
             end
         end
