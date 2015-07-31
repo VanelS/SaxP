@@ -9,10 +9,7 @@ function [gyroCycles]=findCycles3(X,Y)
     gyroCycles=[];
 
     while i<=length(Y)-1
-        if i==44280
-            disp(Y(i) < Y(i-1) && Y(i) < Y(i+1) && Y(i)<-0.8)
-        end
-        if Y(i) < Y(i-1) && Y(i) < Y(i+1) && Y(i)<-0.8
+        if Y(i) < Y(i-1) && Y(i) < Y(i+1) && Y(i)<-seuil
             
             arr=1;
             xarr=-1;
@@ -35,7 +32,7 @@ function [gyroCycles]=findCycles3(X,Y)
             gyroCycles=[gyroCycles;[xarr,i-1]];
         end
 
-        if Y(i) > Y(i-1) && Y(i) > Y(i+1) && Y(i)>0.8
+        if Y(i) > Y(i-1) && Y(i) > Y(i+1) && Y(i)>seuil
             
             arr=1;
             xarr=-1;

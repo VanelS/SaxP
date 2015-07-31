@@ -24,6 +24,7 @@ function [cycle] = CyclePropulsion(time, signal, rotation)
 
             end
             i=i+1;
+            %cette condition nous permet de passer au prochain cycle 
             if j<length(rotation) && i >= rotation(j,2)
                 j=j+1;
             end

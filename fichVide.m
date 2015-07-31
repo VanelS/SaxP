@@ -1,5 +1,7 @@
 function [] = fichVide(chemin, nomFichs)
-    %fichVide permet de supprimer les fichiers vide d'un dossier.
+    %fichVide permet de supprimer les fichiers considérer comme vide d'un dossier.
+    %Dans notre cas, c'est lorsqu'il n'y a que la presence de la ligne
+    %d'en-tete.
     rep = fullfile(chemin,nomFichs);
 
     list = dir(rep);

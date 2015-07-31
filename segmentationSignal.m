@@ -34,9 +34,9 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
 %     
 %     tstart = tic;
     
-    un=importdata([chemin '\' RD],';');
-    deux=importdata([chemin '\' RG],';');
-    trois=importdata([chemin '\' gyr],';');
+    un=importdata([chemin '\' ['2-' RD]],';');
+    deux=importdata([chemin '\' ['2-' RG]],';');
+    trois=importdata([chemin '\' ['2-' gyr]],';');
     
     X=un.data(:,indTemps);
     D=un.data(:,attribut);
@@ -44,10 +44,6 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     F=trois.data(:,attribut);
     
 %     telapsed = toc(tstart)
-    
-    if max(F) > 0.8
-        F=-1*F;
-    end
     
     i=60;
     
@@ -60,16 +56,23 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     
     %on identifie les periodes de rotations
     gyroCycle=findCycles3(X,lisseF);
-    
     listRotD=ajustement(D,gyroCycle);
     listRotG=ajustement(G,gyroCycle);
-      
+    
+    %identification des differents cycles de propulsion
+    cycleD=CyclePropulsion(X,lisseD,listRotD);
+    cycleG=CyclePropulsion(X,lisseG,listRotG);
+    
+    %identification du dernier point du dernier cycle complet
+    finD=findStop(lisseD,listRotD)
+    finG=findStop(lisseG,listRotG)
+        
     %affichage
     figure 
     subplot(2,1,1) 
     hold on
+    title('Roue Droite')
     plot(X,D,'r')
-    
     for i=1:length(listRotD)
         plot(X(listRotD(i,1):listRotD(i,2)),D(listRotD(i,1):listRotD(i,2)),'g')
     end
@@ -77,28 +80,41 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     
     subplot(2,1,2) 
     hold on
-    plot(X,G,'r')
+    plot(X,D,'r')
+    for i=1:length(gyroCycle)
+        plot(X(gyroCycle(i,1):gyroCycle(i,2)),D(gyroCycle(i,1):gyroCycle(i,2)),'g')
+    end
+    hold off
     
-    for i=1:length(listRotD)
+    %affichage
+    figure 
+    subplot(2,1,1) 
+    hold on
+    title('Roue Gauche')
+    plot(X,G(1:length(X)),'r')
+    for i=1:length(listRotG)
         plot(X(listRotG(i,1):listRotG(i,2)),G(listRotG(i,1):listRotG(i,2)),'g')
     end
     hold off
-      
-    %identification des differents cycles de propulsion
-    cycleD=CyclePropulsion(X,lisseD,listRotD);
-    cycleG=CyclePropulsion(X,lisseG,listRotG);
+    
+    subplot(2,1,2) 
+    hold on
+    plot(X,G(1:length(X)),'r')
+    for i=1:length(gyroCycle)
+        plot(X(gyroCycle(i,1):gyroCycle(i,2)),G(gyroCycle(i,1):gyroCycle(i,2)),'g')
+    end
+    hold off
     
     %decoupedans plusieur fichier des cycles de propulsion et cycles
     %complet 
     decoupeCycle(cycleD, listRotD , chemin, RD, indTemps,X);
     fichVide(chemin, [RD 'decoupe']);
-    cycleComplet(cycleD, listRotD , chemin, RD, indTemps,X);
+    cycleComplet(cycleD, listRotD , chemin, RD, indTemps,X,finD);
     fichVide(chemin, [RD 'Cycle Complet']);
     
     decoupeCycle(cycleG, listRotG , chemin, RG, indTemps,X);
     fichVide(chemin, [RG 'decoupe']);
-    cycleComplet(cycleG, listRotG , chemin, RG, indTemps,X);
+    cycleComplet(cycleG, listRotG , chemin, RG, indTemps,X,finG);
     fichVide(chemin, [RG 'Cycle Complet']);
     
-
 end

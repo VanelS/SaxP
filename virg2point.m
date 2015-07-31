@@ -23,6 +23,7 @@ function [] = virg2point ( chemin, nomFich )
         while ~feof(fid)
             ligne = fgetl(fid);
             ligne = strrep(ligne, ',', '.');
+            ligne=strrep(ligne,'	',';');
             fprintf(fsortie,'%s\r\n',ligne);   
         end
         %on ferme tous les fichiers. On supprime le fichier original qui
@@ -30,8 +31,8 @@ function [] = virg2point ( chemin, nomFich )
         %par le noms du fichier d'origine. 
         fclose(fsortie);
         fclose(fid);
-        delete([chemin '\' nomFich]);
-        movefile([chemin '\' '2-' nomFich],[chemin '\' nomFich]);
+%         delete([chemin '\' nomFich]);
+%         movefile([chemin '\' '2-' nomFich],[chemin '\' nomFich]);
     end
     
 end

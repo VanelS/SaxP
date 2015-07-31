@@ -1,4 +1,4 @@
-function [] = cycleComplet(cycles,rot, chemin, fichier, indTemps,time)
+function [] = cycleComplet(cycles,rot, chemin, fichier, indTemps,time,fin)
     %cycleComplet est une fonction qui permet de decouper les cycles
     %complet et les inserer dans different fichier. En effet, il va lire
     %le fichier passer en parametre et pour chacun des cycles contenu dans 
@@ -61,7 +61,7 @@ function [] = cycleComplet(cycles,rot, chemin, fichier, indTemps,time)
                 %a cause du fait qu'on utilise le cycle suivant pour enregistrer le cycle
                 %courant, on oublie de traiter le dernier cycle. Alors, nous reglons ce 
                 %probleme par la condition suivante 
-                if i==(length(cycles)+1) && x>=cycles(i-1,1) && x < cycles(i-1,2)
+                if i==(length(cycles)+1) && x>=cycles(i-1,1) && x <= fin
                     fprintf(fidR,[l '\n']);
                 end
                 
