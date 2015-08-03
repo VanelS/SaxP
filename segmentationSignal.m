@@ -42,6 +42,7 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     D=un.data(:,attribut);
     G=deux.data(:,attribut);
     F=trois.data(:,attribut);
+        
     
 %     telapsed = toc(tstart)
     
@@ -66,9 +67,10 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps )
     %identification du dernier point du dernier cycle complet
     finD=findStop(lisseD,listRotD)
     finG=findStop(lisseG,listRotG)
-        
+    finD=findStop2(cycleD,X,lisseD,listRotD)
+    finG=findStop2(cycleG,X,lisseG,listRotG)   
+    
     %affichage
-    figure 
     subplot(2,1,1) 
     hold on
     title('Roue Droite')

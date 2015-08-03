@@ -50,7 +50,7 @@ function [] = decoupeCycle(cycles,rot, chemin, fichier, indTemps,time)
             if j<=length(rot) && (x<=time(rot(j,1)) ||  x>=time(rot(j,2)))
                 %si x appartient au cycle courant on l'insert de les donnees
                 %complete contenue dans l dans le fichier courant
-                if x>=cycles(i,1) && x <= cycles(i,2)
+                if i <= length(cycles) && x>=cycles(i,1) && x <= cycles(i,2)
                     fprintf(fidR,[l '\n']);
                 end
 

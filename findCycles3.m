@@ -5,7 +5,7 @@ function [gyroCycles]=findCycles3(X,Y)
     %variable gyroCycle qui est retourne a la fin du programme
     
     i=2;
-    seuil=0.8;
+    seuil=0.6;
     gyroCycles=[];
 
     while i<=length(Y)-1
