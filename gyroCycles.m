@@ -1,24 +1,36 @@
-function [t] = gyroCycles(X,signal)
-    Y=abs(filtfilt(ones(100,1),100,signal(1:length(signal))));
-    plot(X,Y)
-    Ysort=sort(Y);
-
-    taille=length(Ysort);
-    Ysort=Ysort(ceil(taille/2):taille);
-    taille=length(Ysort);
-    Q1=ceil(taille/4);
-    Q3=ceil(3*taille/4);
-    if mod(taille,2)==0
-        a=taille/2;
-        b=(taille/2)+1;
-        Q2=(Ysort(a)+Ysort(b))/2;
+function [interv] = gyroCycles(X,signal,roue)
+    Y=filtfilt(ones(125,1),125,signal(1:length(signal)));
+    
+    if roue == 0
+        plot(X,Y)
+        Y=abs(Y);
+        Ysort=sort(Y);
+        taille=length(Ysort);
+        Ysort=Ysort(ceil(taille/2):taille);
+        taille=length(Ysort);
+        Q3=ceil(3*taille/4);
+        res=Ysort(Q3+1:taille); 
     else
-        Q2=(taille+1)/2;
+        plot(X,Y)
+        Ysort=Y;
+        Ysort=sort(Ysort);
+%         taille=length(Ysort);
+%         Ysort=Ysort(ceil(taille/2):taille);
+        taille=length(Ysort);
+        Q1=ceil(taille/4);
+%         if mod(taille,2)==0
+%             Q2=taille/2 + 1;
+%         else
+%             Q2=(taille+1)/2;
+%         end
+         res=Ysort(Q1+1:taille); 
     end
-    res=Ysort(Q3+1:taille);
+    
+    
     s=1;
     t=[];
-    while s<=100 && ~isempty(res)
+    while s<=500 && ~isempty(res)
+        length(res)
         maxi=max(res);
 
         pos=position(1,Y,maxi);
@@ -29,16 +41,20 @@ function [t] = gyroCycles(X,signal)
         xavc=-1;
 
         while (pos-arr)>0 && (pos+avc)<length(X) && (xarr==-1 ||xavc==-1)
-            if Y(pos-arr)<=0.001 && xarr==-1
+            if Y(pos-arr)<=0.01 && xarr==-1
                 xarr=pos-arr;
+            else
+                arr=arr+1;
             end
-            if Y(pos+avc)<=0.001 && xavc==-1
+            if Y(pos+avc)<=0.01 && xavc==-1
                 xavc=pos+avc;
+            else
+                avc=avc+1;
             end
-            avc=avc+1;
-            arr=arr+1;
+            
+            
         end
-
+        [xarr,xavc]
         for i=xarr:xavc
 
             if ismember(Y(i),res)
@@ -49,4 +65,9 @@ function [t] = gyroCycles(X,signal)
         end
         s=s+1;
     end
+    
+    hold on
+    plot(X,Y,'g')
+    hold off
+    interv=intervale(t,signal);
 end
