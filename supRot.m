@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function [Cycles] = supRot(listCycle,listRot)
     % Cette fonction suprime les cycles compris dans la periode de
     % rotation. Elle prend en parametre la liste des cycles de propulsion
@@ -23,8 +24,23 @@ function [Cycles] = supRot(listCycle,listRot)
         %Si j est inferieur a la taille de la liste de rotation et que le
         %cycle courant est superieur au cycle de rotation(j), alors on
         %passe au cycle de rotation suivant (j+1)
+=======
+function [cycles] = supRot(listCycle,listRot)
+    listCycle=sort(listCycle);
+    listRot=sort(listRot);
+    cycles=[];
+    j=1;
+    for i=1:length(listCycle)
+        if listCycle(i,2)<=listRot(j,1) || listCycle(i,1)>=listRot(j,2)
+            cycles=[cycles;listCycle(i,:)];
+        end
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
         if j<length(listRot) && listCycle(i,1)>=listRot(j,2)
             j=j+1;
         end
     end
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
 end

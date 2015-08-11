@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function [interv] = gyroCycles(X,signal)
     %gyroCycles est une fonction permettant d'obtenir les intevales de
     %rotation sans avoir besoin de seuil. Dans un premier temps le
@@ -39,6 +40,41 @@ function [interv] = gyroCycles(X,signal)
     while s<=500 && ~isempty(res)
         %on identifie le maximum de res puis on identifie sa position dans
         %le signal Y. Et on garde en memoire cette position.
+=======
+function [interv] = gyroCycles(X,signal,roue)
+    Y=filtfilt(ones(125,1),125,signal(1:length(signal)));
+    
+    if roue == 0
+        plot(X,Y)
+        Y=abs(Y);
+        Ysort=sort(Y);
+        taille=length(Ysort);
+        Ysort=Ysort(ceil(taille/2):taille);
+        taille=length(Ysort);
+        Q3=ceil(3*taille/4);
+        res=Ysort(Q3+1:taille); 
+    else
+        plot(X,Y)
+        Ysort=Y;
+        Ysort=sort(Ysort);
+%         taille=length(Ysort);
+%         Ysort=Ysort(ceil(taille/2):taille);
+        taille=length(Ysort);
+        Q1=ceil(taille/4);
+%         if mod(taille,2)==0
+%             Q2=taille/2 + 1;
+%         else
+%             Q2=(taille+1)/2;
+%         end
+         res=Ysort(Q1+1:taille); 
+    end
+    
+    
+    s=1;
+    t=[];
+    while s<=500 && ~isempty(res)
+        length(res)
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
         maxi=max(res);
         pos=position(1,Y,maxi);
         Points=[Points,pos];
@@ -46,15 +82,23 @@ function [interv] = gyroCycles(X,signal)
         avc=1;
         xarr=-1;
         xavc=-1;
+<<<<<<< HEAD
         
         %On idientifie l'intervale de debut et de fin en partant de la
         %position du maximum. On considere le point de debut et de fin
         %comme etant le premier point que l'on trouve lorsque l'on depasse
         %0.01 a gauche et a droite du point culminant sur le signal Y.        
         while (pos-arr)>0 && (xarr==-1 )
+=======
+
+        while (pos-arr)>0 && (pos+avc)<length(X) && (xarr==-1 ||xavc==-1)
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
             if Y(pos-arr)<=0.01 && xarr==-1
                 xarr=pos-arr;
+            else
+                arr=arr+1;
             end
+<<<<<<< HEAD
             arr=arr+1;
         end
         
@@ -82,6 +126,17 @@ function [interv] = gyroCycles(X,signal)
         %on regarde si les points de l'intervalles trouver precedemment
         %sont compris dans la variable res. Si c'est le cas, on supprime
         %les points identiques dans res et on met à -1 dans Y.
+=======
+            if Y(pos+avc)<=0.01 && xavc==-1
+                xavc=pos+avc;
+            else
+                avc=avc+1;
+            end
+            
+            
+        end
+        [xarr,xavc]
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
         for i=xarr:xavc
             if ismember(Y(i),res)
                 res(position(1,res,Y(i)))=[];
@@ -90,5 +145,13 @@ function [interv] = gyroCycles(X,signal)
         end
         s=s+1;
     end
+<<<<<<< HEAD
     interv=intervale(Points,signal);
+=======
+    
+    hold on
+    plot(X,Y,'g')
+    hold off
+    interv=intervale(t,signal);
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
 end

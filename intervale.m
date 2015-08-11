@@ -1,4 +1,5 @@
 function [interv] = intervale(list,signal)
+<<<<<<< HEAD
     %Cette fonction intervale permet de renvoyer un intervalle ou une liste
     %d'intervalle (en position) sur un signal et une liste de sommmets ou 
     %un seul sommet donné en paramètre. L'algorithme developper ici se 
@@ -15,12 +16,18 @@ function [interv] = intervale(list,signal)
         %Si le point est positif on parcour de chaque cote du sommet
         %jusqu'a passer en-dessous de la barre des zeros. Sinon on fait la
         %meme chose mais en passant au-dessus de la barre des zeros.
+=======
+    taille=size(list);
+    interv=[];
+    if taille(1,1)==1 && taille(1,2)==1 
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
         if list > 0
             arr=1;
             avc=1;
             xarr=-1;
             xavc=-1;
 
+<<<<<<< HEAD
             while (list-arr)>0 &&(xarr==-1)
                 if signal(list-arr)<=0 && xarr==-1
                     xarr=list-arr;
@@ -29,10 +36,17 @@ function [interv] = intervale(list,signal)
                 arr=arr+1;
             end
             while (list+avc)<=length(signal) &&  xavc==-1
+=======
+            while (list-arr)>0 && (xarr==-1 ||xavc==-1)
+                if signal(list-arr)<=0 && xarr==-1
+                    xarr=list-arr;
+                end
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
                 if signal(list+avc)<=0 && xavc==-1
                     xavc=list+avc;
                 end
                 avc=avc+1;
+<<<<<<< HEAD
             end
             %Dans le cas ou le sommet est au debut du signal et que lors
             %du parcours ce signal on ne depasse pas les zeros alors on
@@ -51,12 +65,19 @@ function [interv] = intervale(list,signal)
             interv(1,1)=xarr;
             interv(1,2)=xavc;
             
+=======
+                arr=arr+1;
+            end
+            interv(1,1)=xarr;
+            interv(1,2)=xavc;
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
         else
             arr=1;
             avc=1;
             xarr=-1;
             xavc=-1;
 
+<<<<<<< HEAD
             while (list-arr)>0 && (xarr==-1)
                 if signal(list-arr)>=0 && xarr==-1
                     xarr=list-arr;
@@ -64,10 +85,17 @@ function [interv] = intervale(list,signal)
                 arr=arr+1;
             end
             while (list+avc)<=length(signal) && xavc==-1
+=======
+            while (list-arr)>0 && (xarr==-1 ||xavc==-1)
+                if signal(list-arr)>=0 && xarr==-1
+                    xarr=list-arr;
+                end
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
                 if signal(list+avc)>=0 && xavc==-1
                     xavc=list+avc;
                 end
                 avc=avc+1;
+<<<<<<< HEAD
             end
             
             %Dans le cas ou le sommet est au debut du signal et que lors
@@ -91,11 +119,20 @@ function [interv] = intervale(list,signal)
     else
         %On fait de meme ici pour chaque sommet de la liste. Et pour chaque
         %sommet, on verifie s'il est negatif ou positif.
+=======
+                arr=arr+1;
+            end
+            interv(1,1)=xarr;
+            interv(1,2)=xavc;
+        end
+    else
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
         for j=1:length(list)
             arr=1;
             avc=1;
             xarr=-1;
             xavc=-1;
+<<<<<<< HEAD
             %Si le point est positif on parcour de chaque cote du sommet
             %jusqu'a passer en-dessous de la barre des zeros. Sinon on fait 
             %la meme chose mais en passant au-dessus de la barre des zeros.
@@ -108,10 +145,18 @@ function [interv] = intervale(list,signal)
                 end
                 
                 while(list(j)+avc)<=length(signal) && xavc==-1
+=======
+            if(signal(list(j))>0)
+                while (list(j)-arr)>0 && (xarr==-1 ||xavc==-1)
+                    if signal(list(j)-arr)<=0 && xarr==-1
+                        xarr=list(j)-arr;
+                    end
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
                     if signal(list(j)+avc)<=0 && xavc==-1
                         xavc=list(j)+avc;
                     end
                     avc=avc+1;
+<<<<<<< HEAD
                 end
                 %Dans le cas ou le sommet est au debut du signal et que lors
                 %du parcours ce signal on ne depasse pas les zeros alors on
@@ -140,10 +185,22 @@ function [interv] = intervale(list,signal)
                 end 
                 
                 while (list(j)+avc)<=length(signal) && xavc==-1
+=======
+                    arr=arr+1;
+                end
+                interv(j,1)=xarr;
+                interv(j,2)=xavc;
+            else
+                while (list(j)-arr)>0 && (xarr==-1 ||xavc==-1)
+                    if signal(list(j)-arr)>=0 && xarr==-1
+                        xarr=list(j)-arr;
+                    end
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
                     if signal(list(j)+avc)>=0 && xavc==-1
                         xavc=list(j)+avc;
                     end
                     avc=avc+1;
+<<<<<<< HEAD
                 end
                 
                 %Dans le cas ou le sommet est au debut du signal et que lors
@@ -165,6 +222,12 @@ function [interv] = intervale(list,signal)
                 interv(j,1)=xarr;
                 interv(j,2)=xavc;
                 
+=======
+                    arr=arr+1;
+                end
+                interv(j,1)=xarr;
+                interv(j,2)=xavc;
+>>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
             end
         end
     end
