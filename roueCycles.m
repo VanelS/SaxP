@@ -1,10 +1,26 @@
 function [interv] = roueCycles(X,signal)
+    %Cette fonction permet de detecter les cycles du signal envoyer en
+    %parametre. Dans un premier temps, on lisse le signal et l'inserrons
+    %dans un tableau tab avec la variable X passer en parametre. Ensuite
+    %nous trions le tableau par ligne en prenant en reference la colonne du
+    %signal. Et nous sauvegardons la partie du troisieme quartile jusqu'a
+    %la fin du tableau dans la variable res. Puis, nous prenons le point
+    %maximal du tableau res et nous determinons sa position dans tab. A
+    %partir de la nous indentifions les intervales debut et fin à partir du
+    %point maximal. Nous verifions que les points de cette intervale sont
+    %dans res grace a leur valeurs correspondante X. Si c'est le cas nous
+    %effacons la ligne correspondant dans res et nous mettons à -1 la
+    %partie Y de tab. S'il n'y a pas de correspondance nous supprimons le 
+    %point maximale du tableau res. 
+    
+    %lissage du signale
     y=filtfilt(ones(60,1),60,signal(1:length(signal)));
-<<<<<<< HEAD
+    %creation du tableau contenant X et le signale lisser
     tab=[X,y];
     Ysort=sortrows(tab,2);
     taille=length(tab(:,2));
     Q3=ceil(3*taille/4);
+    %sauvegarde dans res de la partie superieur du 3eme quartile
     res=Ysort(Q3:taille,:); 
     s=1;
     Points=[];
@@ -14,31 +30,13 @@ function [interv] = roueCycles(X,signal)
         %le signal tab. Et on garde en memoire cette position.
         maxi=max(res(:,2));
         pos=position(1,tab(:,2),maxi);
+        %on sauvegarde la position du maxi
         Points=[Points,pos];
         
-=======
-    plot(X,y)
-    tab=[X,y];
-    Ysort=sortrows(tab,2);
-    taille=length(tab(:,2));
-    Ysort=Ysort(ceil(taille/2):taille,:);
-    taille=length(Ysort(:,2));
-    Q3=ceil(taille/4);
-    res=Ysort((Q3+1):taille,:); 
-    s=1;
-    t=[];
-    while s<=500 && ~isempty(res)
-        
-        maxi=max(res(:,2));
-        
-        pos=position(1,tab(:,2),maxi);
-        t=[t,pos];
->>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
         arr=1;
         avc=1;
         xarr=-1;
         xavc=-1;
-<<<<<<< HEAD
         
         %On idientifie l'intervale de debut et de fin en partant de la
         %position du maximum. On considere le point de debut et de fin
@@ -46,20 +44,13 @@ function [interv] = roueCycles(X,signal)
         %zero a gauche et a droite du point culminant sur le signal. 
         while (pos-arr)>0 && xarr==-1
             if tab(pos-arr,2)<=0 && xarr==-1
-=======
-        [pos,length(res(:,2))]
-        
-        while (pos-arr)>0 && xarr==-1
-            if tab(pos-arr,2)<=0.5 && xarr==-1
->>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
                 xarr=pos-arr;
-            else
-                arr=arr+1;
             end
+            arr=arr+1;
         end
-<<<<<<< HEAD
+
         while (pos+avc)<length(X)&& xavc==-1
-            if tab(pos+avc,2)<=0
+            if tab(pos+avc,2)<=0 && xavc==-1
                 xavc=pos+avc;
             end
             avc=avc+1;
@@ -79,33 +70,17 @@ function [interv] = roueCycles(X,signal)
         if xavc<=0
             xavc=length(X);
         end
-=======
-        if(pos-arr)==0
-            xarr=1;
-        end
-        while (pos+avc)<length(X)&& xavc==-1
-            if tab(pos+avc,2)<=0.5 && xavc==-1
-                xavc=pos+avc;
-            else
-                avc=avc+1;
-            end 
-        end
-        if(pos+avc)==length(X)
-            xavc=length(X);
-        end
-            
-        [xarr,xavc]
->>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
         
+        %A partir de l'interval calculer, nous verifions que le point au
+        %coordonnee du point X est present dans res, si c'est le cas nous
+        %le supprimons de res et le mettons à -1 dans le tableau tab
         for i=xarr:xavc
-
             if ismember(tab(i,1),res(:,1))
-
                 res(position(1,res(:,1),tab(i,1)),:)=[];
                 tab(i,2)=-1;
             end
         end
-<<<<<<< HEAD
+        %Si le point n'a pas etait identifier nous le supprimons dans res.
         if res(position(1,res(:,2),maxi),2)==maxi
             res(position(1,res(:,2),maxi),:)=[];
         end
@@ -113,13 +88,4 @@ function [interv] = roueCycles(X,signal)
     end
     
     interv=intervale(Points,signal);
-=======
-        s=s+1;
-    end
-    
-    hold on
-    plot(tab(:,1),tab(:,2),'g')
-    hold off
-    interv=intervale(t,signal);
->>>>>>> 3f3609abe8a10017a9209d5c0c3e965cb9ffeb2e
 end

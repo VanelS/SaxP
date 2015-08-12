@@ -1,7 +1,7 @@
 function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps ) 
     %cette fonction realise les differentes etape du decoupage des signaux
     %donné en parametre. Dans un premier temps, il converti les virgules
-    %des rzels du fichier en un point. Ensuite, nous stockons les données
+    %des reels du fichier en un point. Ensuite, nous stockons les données
     %des differents fichier. Puis nous verifions si la representation
     %graphique des donnees du gyroscope possede des sommets positif
     %depassant le seuil de 1. Si c'est le cas nos transformons ces donnees
