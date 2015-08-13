@@ -1,4 +1,4 @@
-function [] = decoupeCycle(cycles,rot, chemin, fichier, indTemps,time)
+function [] = decoupeCycle(cycles,rot, chemin, fichier, indTemps,time,rect)
     %decoupeCycle est une fonction, comme son nom l'indique, une fonction
     %qui permet de decouper les cycles propulsion et les inserer dans different
     %fichier. En effet, il va lire le fichier passer en parametre et pour
@@ -25,7 +25,11 @@ function [] = decoupeCycle(cycles,rot, chemin, fichier, indTemps,time)
         condition=1;
         %nous definissons le dossier dans lequel va contenir tous les
         %fichiers créer par cette fonction
-        aux = [chemin '\' fichier 'decoupe' ];
+        if rect==0
+            aux = [chemin '\' fichier 'decoupe' ];
+        else
+            aux = [chemin '\' fichier 'rectiligne' ];
+        end
 
         if ~exist(aux,'dir')
         	mkdir(aux);

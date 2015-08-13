@@ -1,5 +1,5 @@
 function [rot] = ajustement(Y,rotation)
-    %cette fonction est comme sont noms l'indique une fonction d'ajustement
+    %cette fonction est comme son noms l'indique une fonction d'ajustement
     %C'est-a-dire que lorsque nous identifions les cycles de rotation, les
     %debuts et fins de ces intervalles de temps peuvent au sommet d'un
     %pique positif ou negatif. De ce fait nous les remettons au niveau zero
@@ -11,17 +11,43 @@ function [rot] = ajustement(Y,rotation)
         avc=1;
         xarr=-1;
         xavc=-1;
-      
-        while (rotation(j,1)-arr)>0 && (xarr==-1 ||xavc==-1)
-            if Y(rotation(j,1)-arr)<=0 && xarr==-1
-                xarr=rotation(j,1)-arr;
+        
+        if Y(rotation(j,1))<=0
+            while (rotation(j,1)-arr)>0 && xarr==-1 
+                if Y(rotation(j,1)-arr)>=0 && xarr==-1
+                    xarr=rotation(j,1)-arr;
+                end
+                arr=arr+1;
             end
-            if Y(rotation(j,2)-avc)>=0 && xavc==-1
-                xavc=rotation(j,2)-avc;
-            end
-            avc=avc+1;
-            arr=arr+1;
         end
+        
+        if Y(rotation(j,1))>=0
+            while (rotation(j,1)-arr)>0 && xarr==-1
+                if Y(rotation(j,1)-arr)<=0 && xarr==-1
+                    xarr=rotation(j,1)-arr;
+                end
+                arr=arr+1;
+            end
+        end
+        
+        if Y(rotation(j,2))<=0
+            while (rotation(j,2)+avc)<length(Y) && xavc==-1
+                if Y(rotation(j,2)+avc)>=0 && xavc==-1
+                    xavc=rotation(j,2)+avc;
+                end
+                avc=avc+1;
+            end
+        end
+        
+        if Y(rotation(j,2))>=0
+            while (rotation(j,2)+avc)<length(Y) && xavc==-1
+                if Y(rotation(j,2)+avc)<=0 && xavc==-1
+                    xavc=rotation(j,2)+avc;
+                end
+                avc=avc+1;
+            end
+        end
+        
         rot(j,1)=xarr;
         rot(j,2)=xavc;
     end

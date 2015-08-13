@@ -13,13 +13,12 @@ function [interv] = roueCycles(X,signal)
     %partie Y de tab. S'il n'y a pas de correspondance nous supprimons le 
     %point maximale du tableau res. 
     
-    %lissage du signale
-    y=filtfilt(ones(60,1),60,signal(1:length(signal)));
+    
     %creation du tableau contenant X et le signale lisser
-    tab=[X,y];
+    tab=[X,signal];
     Ysort=sortrows(tab,2);
     taille=length(tab(:,2));
-    Q3=ceil(3*taille/4);
+    Q3=ceil(3*taille/4)+1;
     %sauvegarde dans res de la partie superieur du 3eme quartile
     res=Ysort(Q3:taille,:); 
     s=1;
@@ -88,4 +87,5 @@ function [interv] = roueCycles(X,signal)
     end
     
     interv=intervale(Points,signal);
+    
 end
