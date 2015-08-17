@@ -1,4 +1,4 @@
-function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps, automatique ) 
+function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps, automatique,quartile ) 
     %cette fonction realise les differentes etape du decoupage des signaux
     %donné en parametre. Dans un premier temps, il converti les virgules
     %des reels du fichier en un point. Ensuite, nous stockons les données
@@ -17,7 +17,7 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps, automatiq
     
     [roueD roueG gyros X D G F] =init(chemin, RD, RG, gyr, attribut, indTemps);
     
-    i=60;
+    i=ceil((length(D)+length(G)/2)/1000);
     %on lisse le signale de la roue gauche (G), de la roue droite (D) et du signale
     %du gyroscope(F). Ce dernier à un lissage moins fort car il a moins de
     %parasite par rapport aux autre signaux
@@ -54,27 +54,28 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps, automatiq
         listRotG=ajustement(G,gyroCycle);
         
         %identification du dernier point du dernier cycle complet
-        finD=roueCycles(X(3*length(X)/4:length(X)),lisseD(3*length(lisseD)/4:length(lisseD)));
-        finG=roueCycles(X(3*length(X)/4:length(X)),lisseG(3*length(lisseG)/4:length(lisseG)));
-        finD=sortrows(finD,1);
-        finG=sortrows(finG,1);
-        finD=finD(length(finD),1)+ 3*length(lisseD)/4;
-        finG=finG(length(finG),1)+ 3*length(lisseG)/4;
-        listRotD=[listRotD;[finD length(D)]];
-        listRotG=[listRotG;[finG length(G)]];
+        finD=roueCycles(X(3*length(X)/4:length(X)),lisseD(3*length(lisseD)/4:length(lisseD)),quartile);
+        finG=roueCycles(X(3*length(X)/4:length(X)),lisseG(3*length(lisseG)/4:length(lisseG)),quartile);
+        finD=sort(finD);
+        finG=sort(finG);
+        finD=finD(length(finD))+ 3*length(lisseD)/4;
+        finG=finG(length(finG))+ 3*length(lisseG)/4;
+        listRotD=[listRotD;[ajustement(G,finG) length(D)]];
+        listRotG=[listRotG;[ajustement(G,finG) length(G)]];
                 
         %identification des differents cycles de propulsion
-        cycleD=roueCycles(X,-lisseD);
-        cycleG=roueCycles(X,-lisseG);
-        cycleD=sortrows(cycleD,1);
-        cycleG=sortrows(cycleG,1);
-        cycleD=(supRot(cycleD,listRotD))*0.001;
-        cycleG=(supRot(cycleG,listRotG))*0.001;
+        cycleD=roueCycles(X,-lisseD,quartile);
+        cycleG=roueCycles(X,-lisseG,quartile);
+        cycleD=sort(cycleD);
+        cycleG=sort(cycleG); 
+        cycleD=(supRot(cycleD,listRotD));
+        cycleG=(supRot(cycleG,listRotG));
+        cycleD=(tangent(X,lisseD,cycleD,listRotD));
+        cycleG=(tangent(X,lisseG,cycleG,listRotG));
         
         %depacement rectiligne
         DepRectD=depRect(cycleD(1,1),listRotD)*0.001;
         DepRectG=depRect(cycleG(1,1),listRotG)*0.001;
-        
         
     end
     
@@ -114,7 +115,7 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps, automatiq
         plot(X(gyroCycle(i,1):gyroCycle(i,2)),G(gyroCycle(i,1):gyroCycle(i,2)),'g')
     end
     hold off
-    
+    pause
     %decoupedans plusieur fichier des cycles de propulsion et cycles
     %complet 
     decoupeCycle(cycleD, listRotD , chemin, RD, indTemps,X,0);
@@ -128,7 +129,9 @@ function []= segmentationSignal(chemin, RD,RG,gyr, attribut, indTemps, automatiq
     fichVide(chemin, [RG 'Cycle Complet']);
     
     decoupeCycle(DepRectD, listRotD , chemin, RD, indTemps,X,1);
+    fichVide(chemin, [RD 'rectiligne']);
     decoupeCycle(DepRectG, listRotG , chemin, RG, indTemps,X,1);
+    fichVide(chemin, [RG 'rectiligne']);
     
     calculProporiete(chemin, [RD 'Cycle Complet'],[RD 'decoupe']);
     calculProporiete(chemin, [RG 'Cycle Complet'],[RG 'decoupe']);

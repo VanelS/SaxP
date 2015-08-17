@@ -1,4 +1,4 @@
-function [interv] = roueCycles(X,signal)
+function [Points] = roueCycles(X,signal,quartile)
     %Cette fonction permet de detecter les cycles du signal envoyer en
     %parametre. Dans un premier temps, on lisse le signal et l'inserrons
     %dans un tableau tab avec la variable X passer en parametre. Ensuite
@@ -18,17 +18,19 @@ function [interv] = roueCycles(X,signal)
     tab=[X,signal];
     Ysort=sortrows(tab,2);
     taille=length(tab(:,2));
-    Q3=ceil(3*taille/4)+1;
+    
+    Q3=ceil(quartile*taille/4);
+     
     %sauvegarde dans res de la partie superieur du 3eme quartile
-    res=Ysort(Q3:taille,:); 
+    res=Ysort(Q3:taille,:);
     s=1;
     Points=[];
     
     while s<=500 && ~isempty(res)
         %on identifie le maximum de res puis on identifie sa position dans
         %le signal tab. Et on garde en memoire cette position.
-        maxi=max(res(:,2));
-        pos=position(1,tab(:,2),maxi);
+        maxi=res(length(res(:,1)),1);
+        pos=position(1,tab(:,1),maxi);
         %on sauvegarde la position du maxi
         Points=[Points,pos];
         
@@ -42,14 +44,16 @@ function [interv] = roueCycles(X,signal)
         %comme etant le premier point que l'on trouve lorsque l'on depasse
         %zero a gauche et a droite du point culminant sur le signal. 
         while (pos-arr)>0 && xarr==-1
-            if tab(pos-arr,2)<=0 && xarr==-1
+            tangente=(tab(pos-arr+1,2)-tab(pos-arr,2))/(tab(pos-arr+1,1)-tab(pos-arr,1));
+            if tangente<=0 && xarr==-1
                 xarr=pos-arr;
             end
             arr=arr+1;
         end
 
         while (pos+avc)<length(X)&& xavc==-1
-            if tab(pos+avc,2)<=0 && xavc==-1
+            tangente=(tab(pos+avc+1,2)-tab(pos+avc,2))/(tab(pos+avc+1,1)-tab(pos+avc,1));
+            if tangente>=0 && xavc==-1
                 xavc=pos+avc;
             end
             avc=avc+1;
@@ -79,13 +83,10 @@ function [interv] = roueCycles(X,signal)
                 tab(i,2)=-1;
             end
         end
-        %Si le point n'a pas etait identifier nous le supprimons dans res.
-        if res(position(1,res(:,2),maxi),2)==maxi
-            res(position(1,res(:,2),maxi),:)=[];
-        end
+%         %Si le point n'a pas etait identifier nous le supprimons dans res.
+%         if res(position(1,res(:,2),maxi),2)==maxi
+%             res(position(1,res(:,2),maxi),:)=[];
+%         end
         s=s+1;
     end
-    
-    interv=intervale(Points,signal);
-    
 end

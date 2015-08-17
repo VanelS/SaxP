@@ -17,7 +17,7 @@ function [] = calculProporiete(chemin, complet, propulsion)
             comp = importdata([rep1 '\' list1(n).name],';');
             prop = importdata([rep2 '\' list2(n).name],';');
             
-            NomPousse=list1(n).name(1:9);
+            NomPousse=[complet(1:(find(complet=='.')-1)) list1(n).name(1:9)];
             MzMax=max(comp.data(:,7));%cycle complet
             MzMin=min(comp.data(:,7));%cycle complet
             TempsCycle=comp.data(length(comp.data(:,1)),1)-comp.data(1,1);%cycle complet
