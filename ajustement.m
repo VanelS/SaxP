@@ -9,19 +9,19 @@ function [rot] = ajustement(Y,rotation)
         arr=1;
         xarr=-1;
         
-        if Y(rotation(1))<=0
-            while (rotation(1)-arr)>0 && xarr==-1 
-                if Y(rotation(1)-arr)>=0 && xarr==-1
-                    xarr=rotation(1)-arr;
+        if rotation<= length(Y) && Y(rotation)<=0
+            while (rotation-arr)>0 && xarr==-1 
+                if Y(rotation-arr)>=0 && xarr==-1
+                    xarr=rotation-arr;
                 end
                 arr=arr+1;
             end
         end
 
-        if Y(rotation(1))>=0
-            while (rotation(1)-arr)>0 && xarr==-1
-                if Y(rotation(1)-arr)<=0 && xarr==-1
-                    xarr=rotation(1)-arr;
+        if rotation<= length(Y) && Y(rotation)>=0
+            while (rotation-arr)>0 && xarr==-1
+                if Y(rotation-arr)<=0 && xarr==-1
+                    xarr=rotation-arr;
                 end
                 arr=arr+1;
             end

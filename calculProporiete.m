@@ -8,7 +8,7 @@ function [] = calculProporiete(chemin, complet, propulsion)
         disp(['Le dossier ' rep1 ' ou ' rep2 ' est vide.']);
     else
         ch = 'NomPousse;MzMax;MzMin;TempsCycle;TempsPoussee;SurfaceSousCycle;Moyenne;Medianne;IQR;EcartType';
-        sortie = fopen([rep1 '\' 'Propriete.txt'], 'w');
+        sortie = fopen([rep1 '\' complet(3:(find(complet=='.')-1)) '-' 'Propriete.txt'], 'w');
         fprintf(sortie, [ch '\n']);
         %Pour chaque fichier a partir du troisieme (car les deux premiers sont 
         %. et ..), s'il y a au moins deux ligne on supprime pas sinon oui et on
@@ -17,7 +17,7 @@ function [] = calculProporiete(chemin, complet, propulsion)
             comp = importdata([rep1 '\' list1(n).name],';');
             prop = importdata([rep2 '\' list2(n).name],';');
             
-            NomPousse=[complet(1:(find(complet=='.')-1)) list1(n).name(1:9)];
+            NomPousse=[complet(3:(find(complet=='.')-1)) '-' list1(n).name(1:9)];
             MzMax=max(comp.data(:,7));%cycle complet
             MzMin=min(comp.data(:,7));%cycle complet
             TempsCycle=comp.data(length(comp.data(:,1)),1)-comp.data(1,1);%cycle complet

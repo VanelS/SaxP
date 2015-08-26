@@ -1,5 +1,5 @@
 function [cycle] = tangent(time,signal,A,rotation)
-    plot(time,signal)
+    
     cycle=[];
     for j=1:length(A)
         arr=1;
@@ -7,14 +7,12 @@ function [cycle] = tangent(time,signal,A,rotation)
         xarr=-1;
         xavc=-1;
         
-        %calcule des différentes tangente à différents points 
-        pts=(signal(A(j)+1)-signal(A(j)))/(time(A(j)+1)-time(A(j)));
-        bs=-(time(A(j))*pts - signal(A(j)));
-        %affichage des tangentes
-        hold on
-        plot(time((A(j)-50):(A(j)+50)),pts*time((A(j)-50):(A(j)+50))+ bs,'g','linewidth',2)
-        hold off
-        
+%         %calcule des différentes tangente à différents points 
+%         pts=(signal(A(j)+1)-signal(A(j)))/(time(A(j)+1)-time(A(j)));
+%         bs=-(time(A(j))*pts - signal(A(j)));
+%         %affichage des tangentes
+%         plot(time((A(j)-50):(A(j)+50)),pts*time((A(j)-50):(A(j)+50))+ bs,'g','linewidth',2)
+%         
         %recherche du début de cycle 
         i=1;
         while (A(j)-arr)>0 && xarr==-1

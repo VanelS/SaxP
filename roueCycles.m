@@ -32,7 +32,7 @@ function [Points] = roueCycles(X,signal,quartile)
         maxi=res(length(res(:,1)),1);
         pos=position(1,tab(:,1),maxi);
         %on sauvegarde la position du maxi
-        Points=[Points,pos];
+        Points=[Points;pos];
         
         arr=1;
         avc=1;
@@ -45,7 +45,7 @@ function [Points] = roueCycles(X,signal,quartile)
         %zero a gauche et a droite du point culminant sur le signal. 
         while (pos-arr)>0 && xarr==-1
             tangente=(tab(pos-arr+1,2)-tab(pos-arr,2))/(tab(pos-arr+1,1)-tab(pos-arr,1));
-            if tangente<=0 && xarr==-1
+            if tangente<=0 && tab(pos-arr,2)<=0 && xarr==-1
                 xarr=pos-arr;
             end
             arr=arr+1;
@@ -53,7 +53,7 @@ function [Points] = roueCycles(X,signal,quartile)
 
         while (pos+avc)<length(X)&& xavc==-1
             tangente=(tab(pos+avc+1,2)-tab(pos+avc,2))/(tab(pos+avc+1,1)-tab(pos+avc,1));
-            if tangente>=0 && xavc==-1
+            if tangente>=0 && tab(pos+avc,2)<=0 && xavc==-1
                 xavc=pos+avc;
             end
             avc=avc+1;
